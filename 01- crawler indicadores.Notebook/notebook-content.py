@@ -24,6 +24,7 @@
 
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 import time
 
 from pyspark.sql.functions import *
@@ -72,14 +73,15 @@ def get_fundamentus_data(ticker):
     soup = BeautifulSoup(response.text, "html.parser")
     
     data = {
-        'Ticker': ticker,
-        'Empresa': None,
-        'Setor': None,
-        'SubSetor': None,
-        'MarketCapital': None,
-        'EV_EBITDA': None,
-        'P_L': None,
-        'MargemEBIT': None
+        'ticker': ticker,
+        'empresa': None,
+        'data_balanco': None,
+        'setor': None,
+        'sub_setor': None,
+        'market_capital': None,
+        'ev_ebitda': None,
+        'p_l': None,
+        'margem_ebit': None
     }
     
     try:
@@ -88,32 +90,33 @@ def get_fundamentus_data(ticker):
             for row in table.find_all("tr"):
                 cols = [td.text.strip() for td in row.find_all("td")]
                 if "?Empresa" in cols:
-                    data['Empresa'] = cols[cols.index("?Empresa")+1]
+                    data['empresa'] = cols[cols.index("?Empresa")+1]
+                if "?Últ balanço processado" in cols:
+                    value = cols[cols.index("?Últ balanço processado")+1]
+                    data['data_balanco'] = datetime.strptime(value, "%d/%m/%Y").strftime("%Y-%m-%d")
                 if "?Setor" in cols:
-                    data['Setor'] = cols[cols.index("?Setor")+1]
-                    data["Setor"] = data.get("Setor") or "Outros"
+                    data['setor'] = cols[cols.index("?Setor")+1]
+                    data["setor"] = data.get("setor") or "Outros"
                 if "?Subsetor" in cols:
-                    data['SubSetor'] = cols[cols.index("?Subsetor")+1]
-                    data["SubSetor"] = data.get("SubSetor") or "Outros"
+                    data['sub_setor'] = cols[cols.index("?Subsetor")+1]
+                    data["sub_setor"] = data.get("sub_setor") or "Outros"
                 if "?Valor de mercado" in cols:
                     value = cols[cols.index("?Valor de mercado")+1]
                     value = "0,00" if value in ["-", "", "0"] else value
-                    data['MarketCapital'] = float(value.replace('.', '').replace(',', '.')[:-1]) / 1000000
+                    data['market_capital'] = float(value.replace('.', '').replace(',', '.')[:-1]) / 1000000
                 if "?EV / EBITDA" in cols:
                     value = cols[cols.index("?EV / EBITDA")+1]
                     value = "0,00" if value in ["-", "", "0"] else value
-                    data['EV_EBITDA'] = float(value.replace('.', '').replace(',', '.'))
+                    data['ev_ebitda'] = float(value.replace('.', '').replace(',', '.'))
                 if "?P/L" in cols:
                     value = cols[cols.index("?P/L")+1]
                     value = "0,00" if value in ["-", "", "0"] else value
-                    data['P_L'] = float(value.replace('.', '').replace(',', '.'))
+                    data['p_l'] = float(value.replace('.', '').replace(',', '.'))
                 if "?Marg. EBIT" in cols:
                     value = cols[cols.index("?Marg. EBIT")+1]
                     value = "0,00" if value in ["-", "", "0"] else value
                     value = value.replace('.', '').replace(',', '.').replace('%', '').strip()
-                    data['MargemEBIT'] = float(value) if value else 0.0
-
-                    #data['MargemEBIT'] = float(value.replace('%', '').replace(',', '.').replace('-', '0').replace('', '0'))
+                    data['margem_ebit'] = float(value) if value else 0.0
 
     except Exception as e:
         print(f"Erro ao processar {ticker}: {e}")
@@ -140,10 +143,9 @@ k=0
 for item in tickers:
     ticker = item['ticker']
     k = k+1
-    if i >= 30:
+    if i >= 100:
         i=0
-        print(f'Tickers processados: {((k/1045)*100):.1f}%')
-        #print(f'Tickers processados: {k}')
+        print(f'Tickers processados: {((k/len(tickers))*100):.1f}%')
     else:
         i=i+1
 
@@ -164,17 +166,21 @@ for item in tickers:
 
 # define the schema
 schema = StructType() \
- .add("Ticker", StringType(), True) \
- .add("Empresa", StringType(), True) \
- .add("Setor", StringType(), True) \
- .add("SubSetor", StringType(), True) \
- .add("MarketCapital", DoubleType(), True) \
- .add("EV_EBITDA", DoubleType(), True) \
- .add("P_L", DoubleType(), True) \
- .add("MargemEBIT", DoubleType(), True)
+ .add("ticker", StringType(), True) \
+ .add("empresa", StringType(), True) \
+ .add("data_balanco", StringType(), True) \
+ .add("setor", StringType(), True) \
+ .add("sub_detor", StringType(), True) \
+ .add("market_capital", DoubleType(), True) \
+ .add("ev_ebitda", DoubleType(), True) \
+ .add("p_l", DoubleType(), True) \
+ .add("margem_ebit", DoubleType(), True)
 
+ano_mes = datetime.now().strftime("%Y-%m")
 
 df = spark.createDataFrame(dados)
+df = df.withColumn('origem_dados', lit('Fundamentus')).withColumn('ano_mes', lit(ano_mes))
+display(df.limit(5))
 df.printSchema()
 
 # METADATA ********************
@@ -187,7 +193,7 @@ df.printSchema()
 # CELL ********************
 
 # DROP da tabela se já existir
-spark.sql("DROP TABLE IF EXISTS indicadores_fundamentus")
+spark.sql("DROP TABLE IF EXISTS indicadores_b3")
 
 # METADATA ********************
 
@@ -199,12 +205,19 @@ spark.sql("DROP TABLE IF EXISTS indicadores_fundamentus")
 # CELL ********************
 
 # Salva o df em tabela no DataLake
-df.select(['Ticker','Empresa','Setor','SubSetor','MarketCapital','EV_EBITDA','P_L','MargemEBIT']) \
+df.select([
+    'ano_mes',
+    'ticker',
+    'origem_dados',
+    'empresa',
+    'data_balanco',
+    'setor',
+    'sub_setor',
+    'market_capital',
+    'ev_ebitda','p_l','margem_ebit']) \
     .write.format("delta") \
     .mode('overwrite') \
-    .saveAsTable("indicadores_fundamentus")
-
-display(df.limit(5))
+    .saveAsTable("indicadores_b3")
 
 print('Job executado com sucesso! :)')
 
