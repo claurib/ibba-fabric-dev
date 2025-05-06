@@ -204,6 +204,19 @@ spark.sql("DROP TABLE IF EXISTS indicadores_b3")
 
 # CELL ********************
 
+# Salvar como Parquet
+df.coalesce(1).write.mode("overwrite").parquet("Files/data/indicadores_b3.parquet")
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
 # Salva o df em tabela no DataLake
 df.select([
     'ano_mes',
