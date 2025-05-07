@@ -1,0 +1,90 @@
+table logos_metadados
+	lineageTag: 4d782058-5f95-4866-82f4-71cbe3392548
+
+	column ticker
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: d820efcc-7693-4d93-8b61-f370776882d8
+		summarizeBy: none
+		sourceColumn: ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column short_path
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 253229ed-3713-40df-9d53-f082dc982f43
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: short_path
+
+		annotation SummarizationSetBy = Automatic
+
+	column file_name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 567dfc46-c708-4186-96c7-d3dd4465564e
+		summarizeBy: none
+		sourceColumn: file_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column file_path
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 99a85c20-fb63-43ba-8631-a8b930e4c48b
+		summarizeBy: none
+		sourceColumn: file_path
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_modified
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 7fe0657a-1071-432e-bb2f-696624c3a00e
+		summarizeBy: none
+		sourceColumn: last_modified
+
+		annotation SummarizationSetBy = Automatic
+
+	column file_size
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 44b824fa-bb28-4005-b5c5-7bd462199876
+		summarizeBy: none
+		sourceColumn: file_size
+
+		annotation SummarizationSetBy = User
+
+	column file_type
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b83c6d35-81db-4704-b598-dc36591f186b
+		summarizeBy: none
+		sourceColumn: file_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column url_limpa = ```
+			TRIM(SUBSTITUTE([file_path], UNICHAR(160), ""))
+			
+			```
+		lineageTag: b690fcd6-4f58-435e-8b02-b1671174d339
+		dataCategory: ImageUrl
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition logos_metadados = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("rvdjka36yynenhh4djuctmcape-667ebtlvpdrufexw77lr2mvcem.datawarehouse.fabric.microsoft.com", "lake_ibba"),
+				    dbo_logos_metadados = Source{[Schema="dbo",Item="logos_metadados"]}[Data]
+				in
+				    dbo_logos_metadados
+
+	annotation PBI_ResultType = Table
+

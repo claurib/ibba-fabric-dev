@@ -1,0 +1,51 @@
+{
+  "config": "{\"version\":\"5.59\",\"themeCollection\":{\"baseTheme\":{\"name\":\"CY24SU10\",\"version\":\"5.63\",\"type\":2}},\"activeSectionIndex\":0,\"defaultDrillFilterOtherVisuals\":true,\"linguisticSchemaSyncVersion\":0,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"exportDataMode\":1,\"useDefaultAggregateDisplayName\":true,\"useEnhancedTooltips\":true},\"objects\":{\"section\":[{\"properties\":{\"verticalAlignment\":{\"expr\":{\"Literal\":{\"Value\":\"'Top'\"}}}}}],\"outspacePane\":[{\"properties\":{\"expanded\":{\"expr\":{\"Literal\":{\"Value\":\"false\"}}}}}]}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "disabled": false,
+        "items": [
+          {
+            "name": "CY24SU10",
+            "path": "BaseThemes/CY24SU10.json",
+            "type": 202
+          }
+        ],
+        "name": "SharedResources",
+        "type": 2
+      }
+    }
+  ],
+  "sections": [
+    {
+      "config": "{}",
+      "displayName": "Page 1",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "dca3bc52a5b64b38ad5d",
+      "visualContainers": [
+        {
+          "config": "{\"name\":\"5fcd29f0794938b79712\",\"layouts\":[{\"id\":0,\"position\":{\"x\":0,\"y\":17.84860557768924,\"z\":1000,\"width\":299.60159362549797,\"height\":702.4701195219124,\"tabOrder\":1000}}],\"singleVisual\":{\"visualType\":\"slicer\",\"projections\":{\"Values\":[{\"queryRef\":\"indicadores_b3.setor\",\"active\":true}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"i\",\"Entity\":\"indicadores_b3\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"setor\"},\"Name\":\"indicadores_b3.setor\",\"NativeReferenceName\":\"setor\"}]},\"drillFilterOtherVisuals\":true,\"objects\":{\"data\":[{\"properties\":{\"mode\":{\"expr\":{\"Literal\":{\"Value\":\"'Basic'\"}}}}}],\"general\":[{\"properties\":{\"filter\":{\"filter\":{\"Version\":2,\"From\":[{\"Name\":\"i\",\"Entity\":\"indicadores_b3\",\"Type\":0}],\"Where\":[{\"Condition\":{\"In\":{\"Expressions\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"setor\"}}],\"Values\":[[{\"Literal\":{\"Value\":\"'Energia Elétrica'\"}}]]}}}]}}}}]}}}",
+          "filters": "[]",
+          "height": 702.47,
+          "width": 299.60,
+          "x": 0.00,
+          "y": 17.85,
+          "z": 1000.00
+        },
+        {
+          "config": "{\"name\":\"ad484b37d5472ae8db19\",\"layouts\":[{\"id\":0,\"position\":{\"x\":299.60159362549797,\"y\":17.84860557768924,\"z\":0,\"width\":958.7250996015936,\"height\":683.3466135458167,\"tabOrder\":0}}],\"singleVisual\":{\"visualType\":\"tableEx\",\"projections\":{\"Values\":[{\"queryRef\":\"logos_metadados.short_path\"},{\"queryRef\":\"indicadores_b3.sub_setor\"},{\"queryRef\":\"indicadores_b3.empresa\"},{\"queryRef\":\"indicadores_b3.market_capital\"},{\"queryRef\":\"indicadores_b3.p_l\"},{\"queryRef\":\"indicadores_b3.ev_ebitda\"},{\"queryRef\":\"indicadores_b3.margem_ebit\"},{\"queryRef\":\"indicadores_b3.ticker\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"l\",\"Entity\":\"logos_metadados\",\"Type\":0},{\"Name\":\"i\",\"Entity\":\"indicadores_b3\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"l\"}},\"Property\":\"short_path\"},\"Name\":\"logos_metadados.short_path\",\"NativeReferenceName\":\"short_path\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"sub_setor\"},\"Name\":\"indicadores_b3.sub_setor\",\"NativeReferenceName\":\"sub_setor\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"empresa\"},\"Name\":\"indicadores_b3.empresa\",\"NativeReferenceName\":\"empresa\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"market_capital\"},\"Name\":\"indicadores_b3.market_capital\",\"NativeReferenceName\":\"market_capital\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"p_l\"},\"Name\":\"indicadores_b3.p_l\",\"NativeReferenceName\":\"p_l\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"ev_ebitda\"},\"Name\":\"indicadores_b3.ev_ebitda\",\"NativeReferenceName\":\"ev_ebitda\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"margem_ebit\"},\"Name\":\"indicadores_b3.margem_ebit\",\"NativeReferenceName\":\"margem_ebit\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"i\"}},\"Property\":\"ticker\"},\"Name\":\"indicadores_b3.ticker\",\"NativeReferenceName\":\"ticker\"}]},\"drillFilterOtherVisuals\":true}}",
+          "filters": "[]",
+          "height": 683.35,
+          "width": 958.73,
+          "x": 299.60,
+          "y": 17.85,
+          "z": 0.00
+        }
+      ],
+      "width": 1280.00
+    }
+  ]
+}

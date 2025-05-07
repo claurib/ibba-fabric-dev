@@ -1,0 +1,6 @@
+relationship ec41277f-70d1-35a2-06d1-2c0adb35d565
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: indicadores_b3.ticker
+	toColumn: logos_metadados.ticker
+

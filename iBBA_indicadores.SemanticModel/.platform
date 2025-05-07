@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "iBBA_indicadores"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "89e196be-de71-48c5-a2dc-4b5b64c588aa"
+  }
+}

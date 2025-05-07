@@ -1,0 +1,121 @@
+table indicadores_b3
+	lineageTag: 065f4a92-4ba8-4ec9-91a9-d639f22c0b7e
+
+	column ano_mes
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 147a382a-a48b-46f0-840b-300aab1d03f8
+		summarizeBy: none
+		sourceColumn: ano_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column ticker
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 61ee1b10-c8f8-48b8-b907-871824c021de
+		summarizeBy: none
+		sourceColumn: ticker
+
+		annotation SummarizationSetBy = Automatic
+
+	column origem_dados
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 6ef64bb1-be5f-4ccb-9753-fbae1db30c22
+		summarizeBy: none
+		sourceColumn: origem_dados
+
+		annotation SummarizationSetBy = Automatic
+
+	column empresa
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 406b4177-1b1a-4927-852d-69d018677a62
+		summarizeBy: none
+		sourceColumn: empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_balanco
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3a066922-7425-4f81-b69a-7944139dfd8c
+		summarizeBy: none
+		sourceColumn: data_balanco
+
+		annotation SummarizationSetBy = Automatic
+
+	column setor
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 9a3ab901-3167-4d78-bbaf-5b1f295c619a
+		summarizeBy: none
+		sourceColumn: setor
+
+		annotation SummarizationSetBy = Automatic
+
+	column sub_setor
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b1fc6b93-b348-4aea-9a00-7f3be4b20757
+		summarizeBy: none
+		sourceColumn: sub_setor
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_capital
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 36b67fb8-ec1a-4629-b84b-c507d28e5338
+		summarizeBy: none
+		sourceColumn: market_capital
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ev_ebitda
+		dataType: double
+		sourceProviderType: float
+		lineageTag: eceb41f3-b4e1-4e6f-bd48-e17476aa6472
+		summarizeBy: none
+		sourceColumn: ev_ebitda
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column p_l
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 75c95b12-abae-400e-afff-e641d6236673
+		summarizeBy: none
+		sourceColumn: p_l
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column margem_ebit
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 74576663-ff36-44eb-ab1a-e6700dd0b6ac
+		summarizeBy: none
+		sourceColumn: margem_ebit
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition indicadores_b3 = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("rvdjka36yynenhh4djuctmcape-667ebtlvpdrufexw77lr2mvcem.datawarehouse.fabric.microsoft.com", "lake_ibba"),
+				    dbo_indicadores_b3 = Source{[Schema="dbo",Item="indicadores_b3"]}[Data]
+				in
+				    dbo_indicadores_b3
+
+	annotation PBI_ResultType = Table
+
